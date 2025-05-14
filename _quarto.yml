@@ -1,0 +1,7 @@
+project:
+  title: "CSU ESS330 DE27-28"
+  output-dir: docs
+  type: website
+format:
+  html:
+    self-countained: true

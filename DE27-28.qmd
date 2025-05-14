@@ -49,7 +49,7 @@ waterway_lines <- waterway_lines |>
 poudre_length = st_length(waterway_lines)
 ```
 
-##### Use st_cast to convert  river object to point object
+##### Use st_cast to convert river object to point object
 
 ```{r}
 waterway_lines <- st_cast(waterway_lines, "POINT")
@@ -58,7 +58,7 @@ waterway_lines <- st_cast(waterway_lines, "POINT")
 ##### Define DEM Object
 
 ```{r}
-dem = rast("/vsis3/lynker-spatial/gridded-resources/dem.vrt")
+##dem = rast("/vsis3/lynker-spatial/gridded-resources/dem.vrt")
 ```
 
 ##### 
