@@ -1,0 +1,64 @@
+---
+title: "Daily Exercise 27 & 28"
+subtitle: 'Ecosystem Science and Sustainability 330'
+author:
+  - name: Sammy Tetrault
+format: html
+execute:
+  echo: true
+---
+
+##### Opening Libraries
+
+```{r}
+library(sf)
+library(osmdata)
+library(AOI)
+library(terra)
+library(dplyr)
+```
+
+##### Extract waterways from OpenStreetMap for Bounding Box of Fort Collins, CO
+
+```{r}
+fc <- AOI::geocode("Fort Collins", bbox = TRUE)
+
+str(fc)
+
+fc <- st_as_sf(fc, coords = c("x", "y"), crs =  4326)
+
+foco_waterways <- osmdata::opq(st_bbox(st_transform(fc,4326))) |>
+  add_osm_feature("waterway") |>
+  osmdata_sf()
+```
+
+##### Filter osm_lines to only include Cache la Poudre River
+
+```{r}
+waterway_lines <- foco_waterways$osm_lines
+
+waterway_lines <- waterway_lines |> 
+  filter(name == "Cache la Poudre River") |>
+  st_union() |>
+  st_as_sf()
+```
+
+##### Use st_length() to compute the length of the river
+
+```{r}
+poudre_length = st_length(waterway_lines)
+```
+
+##### Use st_cast to convert  river object to point object
+
+```{r}
+waterway_lines <- st_cast(waterway_lines, "POINT")
+```
+
+##### Define DEM Object
+
+```{r}
+dem = rast("/vsis3/lynker-spatial/gridded-resources/dem.vrt")
+```
+
+##### 
